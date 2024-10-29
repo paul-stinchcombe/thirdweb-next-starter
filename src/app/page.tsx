@@ -37,6 +37,21 @@ export default function App() {
     setConnected(
       wallet ? String(wallet.getAccount()!.address) : "Disconnected"
     );
+    // if (wallet) {
+    //   wallet
+    //     .getAccount()!
+    //     .sendTransaction({
+    //       chainId: wallet.getChain()!.id,
+    //       to: wallet.getAccount()!.address,
+    //       value: BigInt(0),
+    //     })
+    //     .then((result) => {
+    //       console.log(result);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
   }, [wallet]);
 
   const chain = {
