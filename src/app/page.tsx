@@ -1,9 +1,17 @@
 "use client";
 
 import { createWallet, inAppWallet } from "thirdweb/wallets";
-import { ConnectButton, ConnectEmbed, useActiveWallet } from "thirdweb/react";
+import {
+  ConnectButton,
+  ConnectEmbed,
+  MediaRenderer,
+  useActiveWallet,
+} from "thirdweb/react";
 import { createThirdwebClient } from "thirdweb";
+import { base } from "thirdweb/chains";
 import { useEffect, useState } from "react";
+import { SkaleCalypsoHubTestnet } from "@thirdweb-dev/chains";
+import { name } from "thirdweb/extensions/common";
 
 const clientId = process.env.NEXT_PUBLIC_CLIENT_ID!;
 
@@ -31,9 +39,24 @@ export default function App() {
     );
   }, [wallet]);
 
+  const chain = {
+    ...base,
+    id: SkaleCalypsoHubTestnet.chainId,
+    name: SkaleCalypsoHubTestnet.name,
+    rpc: SkaleCalypsoHubTestnet.rpc[0],
+    icon: SkaleCalypsoHubTestnet.icon,
+    blockExplorers: SkaleCalypsoHubTestnet.explorers.map((e) => ({
+      name: e.name,
+      url: e.url,
+    })),
+    nativeCurrency: SkaleCalypsoHubTestnet.nativeCurrency,
+  };
+
   return (
     <div className="relative flex flex-col justify-center items-center h-screen">
-      {!wallet && <ConnectEmbed client={client} wallets={wallets} />}
+      {!wallet && (
+        <ConnectButton client={client} chain={chain} wallets={wallets} />
+      )}
       <button
         className={`absolute top-0 right-0 p-8 ${
           wallet ? "hover:text-green-600" : ""
@@ -43,6 +66,20 @@ export default function App() {
         }}
       >
         {connected}
+        {wallet && (
+          <div className="absolute top-10 right-0 p-8 hover:text-red-600">
+            <div className="flex gap-10 justify-end items-center">
+              {wallet.getChain()?.name}
+              {wallet.getChain()?.icon?.url && (
+                <MediaRenderer
+                  client={client}
+                  src={wallet.getChain()?.icon?.url}
+                  className={`w-9`}
+                />
+              )}
+            </div>
+          </div>
+        )}
       </button>
     </div>
   );
