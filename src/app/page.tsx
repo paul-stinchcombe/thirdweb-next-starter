@@ -11,7 +11,7 @@ import { createThirdwebClient } from "thirdweb";
 import { base } from "thirdweb/chains";
 import { useEffect, useState } from "react";
 import { SkaleCalypsoHubTestnet } from "@thirdweb-dev/chains";
-import { name } from "thirdweb/extensions/common";
+import { useOwnedNFTs, useContract, useAddress } from "@thirdweb-dev/react";
 
 const clientId = process.env.NEXT_PUBLIC_CLIENT_ID!;
 
@@ -37,21 +37,26 @@ export default function App() {
     setConnected(
       wallet ? String(wallet.getAccount()!.address) : "Disconnected"
     );
-    // if (wallet) {
-    //   wallet
-    //     .getAccount()!
-    //     .sendTransaction({
-    //       chainId: wallet.getChain()!.id,
-    //       to: wallet.getAccount()!.address,
-    //       value: BigInt(0),
-    //     })
-    //     .then((result) => {
-    //       console.log(result);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
+
+    if (wallet) {
+      // const address = wallet?.getAccount()?.address;
+      // const { contract } = useContract(contractAddress);
+      // const { data, isLoading, error } = useOwnedNFTs(contract, address);
+      //
+      //   wallet
+      //     .getAccount()!
+      //     .sendTransaction({
+      //       chainId: wallet.getChain()!.id,
+      //       to: wallet.getAccount()!.address,
+      //       value: BigInt(0),
+      //     })
+      //     .then((result) => {
+      //       console.log(result);
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+    }
   }, [wallet]);
 
   const chain = {
@@ -70,11 +75,11 @@ export default function App() {
   return (
     <div className="relative flex flex-col justify-center items-center h-screen">
       {!wallet && (
-        <ConnectButton client={client} chain={chain} wallets={wallets} />
+        <ConnectEmbed client={client} chain={chain} wallets={wallets} />
       )}
       <button
         className={`absolute top-0 right-0 p-8 ${
-          wallet ? "hover:text-green-600" : ""
+          wallet ? "hover:text-green-600" : "cursor-default"
         }`}
         onClick={() => {
           if (wallet) wallet.disconnect();
