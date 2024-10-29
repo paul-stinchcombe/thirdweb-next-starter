@@ -68,7 +68,7 @@ export default function App() {
         {connected}
         {wallet && (
           <div className="absolute top-10 right-0 p-8 hover:text-red-600">
-            <div className="flex gap-10 justify-end items-center">
+            <div className="flex gap-10 justify-end items-center text-yellow-500">
               {wallet.getChain()?.name}
               {wallet.getChain()?.icon?.url && (
                 <MediaRenderer
