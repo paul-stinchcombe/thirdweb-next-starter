@@ -25,7 +25,7 @@ const wallets = [
     }
     // or bring your own auth endpoint
   ),
-  createWallet("io.metamask"),
+  // createWallet("io.metamask"),
 ];
 
 export default function App() {
@@ -101,6 +101,8 @@ export default function App() {
           </div>
         )}
       </button>
+
+      {wallet && <img src="/kami-logo.png" className="w-96" />}
     </div>
   );
 }
